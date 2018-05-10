@@ -99,7 +99,7 @@ class CifarResNeXt(nn.Module):
         for key in self.state_dict():
             if key.split('.')[-1] == 'weight':
                 if 'conv' in key:
-                    init.kaiming_normal(self.state_dict()[key], mode='fan_out')
+                    init.kaiming_normal_(self.state_dict()[key], mode='fan_out')
                 if 'bn' in key:
                     self.state_dict()[key][...] = 1
             elif key.split('.')[-1] == 'bias':
