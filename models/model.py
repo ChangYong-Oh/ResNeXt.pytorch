@@ -94,7 +94,7 @@ class CifarResNeXt(nn.Module):
         self.stage_2 = self.block('stage_2', self.stages[1], self.stages[2], 2)
         self.stage_3 = self.block('stage_3', self.stages[2], self.stages[3], 2)
         self.classifier = nn.Linear(self.stages[3], nlabels)
-        init.kaiming_normal(self.classifier.weight)
+        init.kaiming_normal_(self.classifier.weight)
 
         for key in self.state_dict():
             if key.split('.')[-1] == 'weight':
@@ -124,9 +124,8 @@ class CifarResNeXt(nn.Module):
                 block.add_module(name_, ResNeXtBottleneck(in_channels, out_channels, pool_stride, self.cardinality,
                                                           self.base_width, self.widen_factor))
             else:
-                block.add_module(name_,
-                                 ResNeXtBottleneck(out_channels, out_channels, 1, self.cardinality, self.base_width,
-                                                   self.widen_factor))
+                block.add_module(name_, ResNeXtBottleneck(out_channels, out_channels, 1, self.cardinality, self.base_width,
+                                                          self.widen_factor))
         return block
 
     def forward(self, x):
